@@ -1,76 +1,77 @@
-# Regex to NFA
+# Regex to NFA / Regex a NFA
 
-Pequeño proyecto en C que:
-
-- Convierte una expresión regular infija a notación postfija con concatenación explícita.
-- Construye un Autómata Finito No Determinista (NFA) usando el algoritmo de Thompson.
-- Simula el NFA para validar cadenas de texto.
-
-Soporta los operadores:
-
-- `|`  Alternación
-- `*`  Cero o más
-- `+`  Uno o más
-- `?`  Cero o uno
-- `()` Agrupación
-- Concatenación implícita
+This project implements the conversion of a regular expression into a Non-Deterministic Finite Automaton (NFA) using Thompson’s construction, along with NFA simulation for string validation.  
+Este proyecto implementa la conversión de una expresión regular en un Autómata Finito No Determinista (NFA) utilizando la construcción de Thompson, junto con la simulación del NFA para validar cadenas.
 
 ---
 
-## Compilación con Docker (recomendado)
+## Supported Operators / Operadores Soportados
 
-Construir la imagen:
+- `|`  Alternation / Alternación  
+- `*`  Zero or more / Cero o más  
+- `+`  One or more / Uno o más  
+- `?`  Zero or one / Cero o uno  
+- `()` Grouping / Agrupación  
+- Implicit concatenation / Concatenación implícita  
+
+---
+
+## Build with Docker (Recommended) / Compilación con Docker (Recomendado)
+
+Build the image / Construir la imagen
 
 ```bash
 docker build -t regex_to_nfa_validator .
 ```
 
-Ejecutar el validador automático:
+Run the validator / Ejecutar el validador
 
 ```bash
 docker run --rm regex_to_nfa_validator
 ```
 
-## Uso manual (sin Docker)
+## Manual Build (Without Docker) / Compilación Manual (Sin Docker)
 
-Compilar con CMake:
+Compile using CMake / Compilar usando CMake
 
 ```bash
 cmake .
 make
 ```
 
+This generates the executable:
 Esto genera el ejecutable:
 
 ```bash
 ./regex_to_nfa
 ```
 
-## Modo 1: Convertir a postfijo (`-r`)
+## Mode 1: Convert to Postfix (-r) / Modo 1: Convertir a Postfijo (-r)
 
 ```bash
 echo "a(b|c)*" | ./regex_to_nfa -r
 ```
 
-Salida esperada:
+Expected output / Salida esperada:
 
 ```text
 abc|*.
 ```
 
-## Modo 2: Validar cadenas (`-t`)
+## Mode 2: Validate Strings (`-t`) / Modo 2: Validar Cadenas (`-t`)
 
 ```bash
 printf "%s\n" "(ab)*" "ab" "aba" "abab" | ./regex_to_nfa -t
 ```
 
-Salida:
+Expected output / Salida esperada:
 
 ```text
 101
 ```
 
+Each digit corresponds to an evaluated string:
 Cada dígito corresponde a una cadena evaluada:
 
-- `1` → Aceptada
-- `0` → Rechazada
+- `1` → Accepted/Aceptada 
+- `0` → Rejected/Rechazada
